@@ -17,6 +17,20 @@
 
 .searchInputContainer {
     width: 100%;
+    position: relative;
+}
+
+.searchInputContainer > button {
+    position: absolute;
+    height: 95%;
+    right: 0;
+    top: 1px;
+    padding: 10px 30px;
+    background-color: rgb(108, 136, 255);
+    color: white;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
 }
 
 .searchInput {
@@ -26,9 +40,34 @@
     box-sizing: border-box;
 }
 
+.articlesCountInfo {
+    display: inline-flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 20px;
+    min-height: 40px;
+}
+
 .articlesCount {
     color: white;
-    text-align: right;
+    align-self: center;
+}
+
+.refetchButton {
+    color: white;
+    margin-right: 20px;
+    background: cadetblue;
+    padding: 10px;
+    cursor: pointer;
+    opacity: 0;
+    animation: fadeIn .5s forwards;
+    animation-delay: .3s;
+}
+
+@keyframes fadeIn {
+    0% {opacity: 0}
+    100% {opacity: 1}
 }
 
 .noResultsContainer {

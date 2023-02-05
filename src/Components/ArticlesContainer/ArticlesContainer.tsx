@@ -1,11 +1,12 @@
 import './ArticlesContainer.css';
 import { SingleArticle } from '../SingleArticle/SingleArticle';
-import { useArticles } from '../../api/ArticlesApi';
+import { fetchArticles, useArticles } from '../../api/ArticlesApi';
 import { useState, useEffect } from 'react';
 import { ArticleCategory } from '../ArticleCategory/ArticleCategory';
 import { Category, ArticleCategoryEnum, Article } from '../../Misc/types';
 import { isolateUniqueCategoryPairsAndCount, navigateWithParams } from '../../Misc/utils';
 import { useNavigate } from 'react-router-dom';
+import Fuse from 'fuse.js';
 
 export function ArticlesContainer() {
     const [activeCategory, setActiveCategory] = useState<number>(0)
@@ -13,6 +14,7 @@ export function ArticlesContainer() {
     const [articles, setArticles] = useState<Article[]>([])
     const [filteredArticles, setFilteredArticles] = useState<Article[]>([])
     const [searchQuery, setSearchQuery] = useState<string>('')
+    const [searchValue, setSearchValue] = useState<string>('')
 
     const { isLoading, error, data } = useArticles();
     const navigate = useNavigate();
@@ -57,7 +59,7 @@ export function ArticlesContainer() {
 
     useEffect(() => {
         if(articles){
-            if(searchQuery || activeCategory) {
+            if(searchQuery || activeCategory !== undefined) {
                 navigateWithParams(navigate, {
                     query: searchQuery.length >= 3 ? searchQuery : '',
                     filter: activeCategory.toString(),
@@ -69,13 +71,30 @@ export function ArticlesContainer() {
             if(activeCategory !== undefined) {
                 filtered = activeCategory === 0 ? articles : articles.filter((article) => article.post_category_id.toString() === activeCategory.toString())
             }
+
             if(searchQuery.length >= 3) {
-                filtered = filtered.filter((a) => a.title.toLowerCase().includes(searchQuery))
+                const fuse = new Fuse(filtered, {
+                    keys: [
+                        'title',
+                        'excerpt'
+                    ]
+                })
+                filtered = fuse.search(searchQuery).map(result => result.item)
             }
             setFilteredArticles(filtered)
         }
 
-    }, [articles, searchQuery, activeCategory, navigate])
+    }, [articles, searchQuery, activeCategory, navigate]);
+
+    const deleteArticle = (slug: string) => {
+        setArticles(articles.filter((article) => article.slug !== slug));
+    }
+
+    const refetchData = () => {
+        fetchArticles().then(data => {
+            setArticles(data);
+        })
+    }
 
     if (isLoading) return <div>Skeleton</div>
 
@@ -84,18 +103,25 @@ export function ArticlesContainer() {
     if (data) return (
         <div className='articlesWrapper'>
             <div className='articlesNavbar'>
-                {categories.map((category) => (
-                    <ArticleCategory key={category.categoryName} selectCategory={(category) => setActiveCategory(category)} categoryId={category.categoryId} categoryName={category.categoryName} categoryCount={category.categoryCount}/>
-                ))}
+                {categories.map((category) => {
+                    if(category.categoryCount > 0)
+                    return <ArticleCategory key={category.categoryName} selectCategory={(category) => setActiveCategory(category)} categoryId={category.categoryId} categoryName={category.categoryName} categoryCount={category.categoryCount}/>
+                })}
                 <ArticleCategory selectCategory={(category) => setActiveCategory(category)} categoryId={0} categoryName={'Show all'} categoryCount={articles.length} />
             </div>
-            <div className='searchInputContainer'><input className='searchInput' placeholder='Search articles' value={searchQuery} onInput={(e) => setSearchQuery(e.currentTarget.value)} type={'text'}></input></div>
-            <p className='articlesCount'>Currently showing {articles.length} articles</p>
+            <div className='searchInputContainer'>
+                <input className='searchInput' placeholder='Search articles' value={searchValue} onInput={(e) => setSearchValue(e.currentTarget.value)} type={'text'}></input>
+                <button onClick={() => setSearchQuery(searchValue)}>SEARCH</button>
+            </div>
+            <div className='articlesCountInfo'>
+                {articles.length < 100 && activeCategory === 0 && <button className='refetchButton' onClick={() => refetchData()}>Refetch</button>}
+                <div className='articlesCount'>Currently showing {filteredArticles.length} articles</div>
+            </div>
             <div className='articlesContainer'>
                 {filteredArticles.length !== 0 ? filteredArticles.map((article) => (
-                    <SingleArticle key={article.slug} articleData={article} />
+                    <SingleArticle key={article.slug} articleData={article} deleteArticle={deleteArticle} />
                 )) : <div className='noResultsContainer'>
-                        No results for a given query
+                        No results for the given query
                     </div>}
             </div>
         </div>
