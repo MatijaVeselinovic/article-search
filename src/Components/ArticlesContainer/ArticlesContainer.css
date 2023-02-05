@@ -1,0 +1,41 @@
+.articlesWrapper{
+    width: 100%;
+    max-width: 1440px;
+    margin: auto;
+    box-sizing: border-box;
+    padding-inline: 40px;
+}
+
+.articlesNavbar {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;   
+    justify-content: center;
+    width: 100%;
+    padding-block: 40px;
+}
+
+.searchInputContainer {
+    width: 100%;
+}
+
+.searchInput {
+    padding: 10px 20px;
+    width: 100%;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.articlesCount {
+    color: white;
+    text-align: right;
+}
+
+.noResultsContainer {
+    width: 100%;
+    font-size: 1.5rem;
+    text-align: center;
+    color: white;
+    font-family: monospace;
+    padding-top: 30%;
+}
