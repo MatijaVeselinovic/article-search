@@ -7,8 +7,9 @@ import { Category, ArticleCategoryEnum, Article } from '../../Misc/types';
 import { isolateUniqueCategoryPairsAndCount, navigateWithParams } from '../../Misc/utils';
 import { useNavigate } from 'react-router-dom';
 import Fuse from 'fuse.js';
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import LazyLoad from 'react-lazy-load';
 
 export function ArticlesContainer() {
     const [activeCategory, setActiveCategory] = useState<number>(0)
@@ -65,7 +66,7 @@ export function ArticlesContainer() {
 
     useEffect(() => {
         if(articles){
-            if(searchQuery || activeCategory) {
+            if(searchQuery || activeCategory || activeCategory !== undefined) {
                 navigateWithParams(navigate, {
                     query: searchQuery.length >= 3 ? searchQuery : '',
                     filter: activeCategory.toString(),
@@ -179,7 +180,9 @@ export function ArticlesContainer() {
             </div>
             <div className='articlesContainer'>
                 {filteredArticles.length !== 0 ? filteredArticles.map((article) => (
-                    <SingleArticle key={article.slug} articleData={article} deleteArticle={checkDeleteArticle} />
+                    <LazyLoad key={article.slug} height={372}>
+                        <SingleArticle articleData={article} deleteArticle={checkDeleteArticle} />
+                    </LazyLoad>
                 )) : <div className='noResultsContainer'>
                         No results for the given query
                     </div>}
