@@ -13,6 +13,16 @@
     border-bottom: 2px solid transparent;
 }
 
+.verticalArticleCategory {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    padding-block: 10px;
+    cursor: default;
+    width: 200px;
+    place-content: space-between;
+}
+
 .articleCategory:hover {
     transition: .2s ease-in-out all;
     color: rgb(108, 136, 255);
@@ -21,4 +31,13 @@
 
 .articleCategoryName {
     margin-right: 5px;
+    display: flex;
+}
+
+.articleCategoryCount {
+    margin-left: 5px;
+}
+
+.deleteArticleCategory {
+    cursor: pointer;
 }

@@ -5,18 +5,26 @@ export interface ArticleCategoryProps {
     categoryName: string;
     categoryCount: number;
     selectCategory: (n : number) => void;
+    deleteCategoryArticles: (n : number) => void;
+    verticalMenu?: boolean;
 }
 
-export function ArticleCategory({categoryName, categoryCount, categoryId, selectCategory}: ArticleCategoryProps) {
+export function ArticleCategory({categoryName, categoryCount, categoryId, verticalMenu, selectCategory, deleteCategoryArticles}: ArticleCategoryProps) {
 
     return (
-        <div className='articleCategory' onClick={() => selectCategory(categoryId)}>
+        <div className={verticalMenu ? 'verticalArticleCategory' : 'articleCategory'} onClick={() => selectCategory(categoryId)}>
             <div className='articleCategoryName'>
                 {categoryName}
+                {verticalMenu && <div className='articleCategoryCount'>
+                    {' (' + categoryCount + ')'}
+                </div>
+                }
             </div>
-            <div className='articleCategoryCount'>
-                {'(' + categoryCount + ')'}
+
+            {verticalMenu && <div className='deleteArticleCategory' onClick={() => deleteCategoryArticles(categoryId)}>
+                X
             </div>
+            }
         </div>
     )
 }
