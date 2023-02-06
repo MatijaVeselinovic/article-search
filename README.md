@@ -23,7 +23,7 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-After running `npm run bild`, to view the production build, you should do `install -g serve` and `serve -s build` in order to serve the production build on the local server.
+# *IMPORTANT* : After running `npm run bild`, to view the production build, you should do `install -g serve` and `serve -s build` in order to serve the production build on the local server.
 
 ### `npm run eject`
 
@@ -47,9 +47,10 @@ list of major technologies and libraries used within the project:
 * [A few react hooks]
 
 ## Notes and comments for the reviewer
-1. I didn't have enough time to separate and abstract components more, but just letting you know I am aware that there should have been a few more components abstracted ideally.
-2. I didn't use the Next.js simply because I am way more comfortable with React.JS and once again because I was very short on time.
-3. I didn't use Emotion or Stitches, once again for simplicity because of the time, but I've taken a look at them and I've previously used some similar software.
+1. I've allowed for the .env file to not be gitignored on purpose, so you can pull the file from the git, otherwise wouldn't commit it of course :)
+2. I didn't have enough time to separate and abstract components even more, but just letting you know that I am aware that there should have been a few more components abstracted ideally, such as popup, button, input...etc.
+3. I didn't use the Next.js simply because I am way more comfortable with React.JS, and once again because I was very short on time.
+4. I didn't use Emotion or Stitches, once again for simplicity because of the time, but I've taken a look at them and I've previously used some similar software, such as tailwind, just decided to go for css because of time once again.
 
 ##
 #### Author: [Matija Veselinovic](https://github.com/MatijaVeselinovic/)
