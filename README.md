@@ -1,5 +1,8 @@
 # A simple article fetching and filtering app
 
+## Installation
+To install the project, just run the `npm install` command to install the needed dependencies and you should be ready to go.
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -20,7 +23,7 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+After running `npm run bild`, to view the production build, you should do `install -g serve` and `serve -s build` in order to serve the production build on the local server.
 
 ### `npm run eject`
 
