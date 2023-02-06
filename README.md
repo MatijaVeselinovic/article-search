@@ -23,7 +23,7 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-# *IMPORTANT* : After running `npm run bild`, to view the production build, you should do `install -g serve` and `serve -s build` in order to serve the production build on the local server.
+## *IMPORTANT* : After running `npm run bild`, to view the production build, you should do `install -g serve` and `serve -s build` in order to serve the production build on the local server.
 
 ### `npm run eject`
 
