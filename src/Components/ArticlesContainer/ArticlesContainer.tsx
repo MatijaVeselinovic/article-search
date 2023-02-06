@@ -7,6 +7,8 @@ import { Category, ArticleCategoryEnum, Article } from '../../Misc/types';
 import { isolateUniqueCategoryPairsAndCount, navigateWithParams } from '../../Misc/utils';
 import { useNavigate } from 'react-router-dom';
 import Fuse from 'fuse.js';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export function ArticlesContainer() {
     const [activeCategory, setActiveCategory] = useState<number>(0)
@@ -114,11 +116,19 @@ export function ArticlesContainer() {
         setDeleteCategoryIdPopup('')
     }
 
-    //add skeleton
-    if (isLoading) return <div>Skeleton</div>
+    if (isLoading) return (
+        <div className='skeletonContainer'>
+            <Skeleton style={{marginTop: 30}} height={60}/>
+            <Skeleton style={{marginTop: 70}} height={40}/>
+            <Skeleton style={{marginTop: 30}} height={40}/>
+            <Skeleton style={{marginTop: 30}} height={50}/>
+            <Skeleton style={{marginTop: 60}}  height={370}/>
+            <Skeleton style={{marginTop: 60}}  height={370}/>
+            <Skeleton style={{marginTop: 60}}  height={370}/>
+        </div>
+    )
 
-    //add some error example
-    if (error) return <div>"An error has occurred: "</div>
+    if (error) return <div>"An error has occurred: " {(error as Error).message}</div>
 
     if (data) return (
         <>

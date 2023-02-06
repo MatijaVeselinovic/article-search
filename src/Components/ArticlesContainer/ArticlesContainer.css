@@ -146,3 +146,10 @@
 .popup > .popupButtonContainer > button:hover {
     background-color: rgb(108, 136, 255);
 }
+
+.skeletonContainer {
+    width: 100%;
+    height: 100%;
+    max-width: 1360px;
+    margin: auto;
+}
