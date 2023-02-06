@@ -12,7 +12,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import LazyLoad from 'react-lazy-load';
 
 export function ArticlesContainer() {
-    const [activeCategory, setActiveCategory] = useState<number>(0)
+    const [activeCategory, setActiveCategory] = useState<number>()
     const [categories, setCategories] = useState<Category[]>([])
     const [articles, setArticles] = useState<Article[]>([])
     const [filteredArticles, setFilteredArticles] = useState<Article[]>([])
@@ -24,6 +24,26 @@ export function ArticlesContainer() {
 
     const { isLoading, error, data } = useArticles();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setActiveCategory(5);
+    }, [])
+
+    useEffect(() => {
+        const keyDownHandler = (event: KeyboardEvent) => {
+    
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            setSearchQuery(searchValue);
+          }
+        };
+    
+        document.addEventListener('keydown', keyDownHandler);
+    
+        return () => {
+          document.removeEventListener('keydown', keyDownHandler);
+        };
+    }, [searchValue]);
 
     useEffect(() => {
         if(articles){
@@ -66,7 +86,8 @@ export function ArticlesContainer() {
 
     useEffect(() => {
         if(articles){
-            if(searchQuery || activeCategory || activeCategory !== undefined) {
+            if(searchQuery || activeCategory) {
+                if(activeCategory !== undefined)
                 navigateWithParams(navigate, {
                     query: searchQuery.length >= 3 ? searchQuery : '',
                     filter: activeCategory.toString(),
@@ -76,7 +97,7 @@ export function ArticlesContainer() {
             let filtered: Article[] = []
 
             if(activeCategory !== undefined) {
-                filtered = activeCategory === 0 ? articles : articles.filter((article) => article.post_category_id.toString() === activeCategory.toString())
+                filtered = activeCategory === 5 ? articles : articles.filter((article) => article.post_category_id.toString() === activeCategory.toString())
             }
 
             if(searchQuery.length >= 3) {
@@ -160,8 +181,9 @@ export function ArticlesContainer() {
                 {categories.map((category) => {
                     if(category.categoryCount > 0)
                     return <ArticleCategory key={category.categoryName} selectCategory={((category) => setActiveCategory(category))} categoryId={category.categoryId} categoryName={category.categoryName} categoryCount={category.categoryCount} deleteCategoryArticles={() => {}}/>
+                    else return null
                 })}
-                <ArticleCategory selectCategory={(category) => setActiveCategory(category)} categoryId={0} categoryName={'Show all'} categoryCount={articles.length} deleteCategoryArticles={() => {}} />
+                <ArticleCategory selectCategory={(category) => setActiveCategory(category)} categoryId={5} categoryName={'Show all'} categoryCount={articles.length} deleteCategoryArticles={() => {}} />
             </div>
             <div className='searchInputContainer'>
                 <input className='searchInput' placeholder='Search articles' value={searchValue} onInput={(e) => setSearchValue(e.currentTarget.value)} type={'text'}></input>
@@ -172,18 +194,25 @@ export function ArticlesContainer() {
                 {toggleCategoryList && categories.map((category) => {
                     if(category.categoryCount > 0)
                     return <ArticleCategory key={category.categoryName} selectCategory={() => {}} categoryId={category.categoryId} categoryName={category.categoryName} categoryCount={category.categoryCount} verticalMenu={true} deleteCategoryArticles={(cat) => checkDeleteCategoryArticles(cat)}/>
+                    else return null
                 })}
             </div>
             <div className='articlesCountInfo'>
-                {articles.length < 100 && activeCategory === 0 && <button className='refetchButton' onClick={() => refetchData()}>Refetch</button>}
+                {articles.length < 100 && activeCategory === 5 && <button className='refetchButton' onClick={() => refetchData()}>Refetch</button>}
                 <div className='articlesCount'>Currently showing {filteredArticles.length} articles</div>
             </div>
             <div className='articlesContainer'>
-                {filteredArticles.length !== 0 ? filteredArticles.map((article) => (
-                    <LazyLoad key={article.slug} height={372}>
+                {filteredArticles.length !== 0 ? filteredArticles.map((article, index) => {
+                    if(index < 5) {
+                        return <SingleArticle key={article.slug} articleData={article} deleteArticle={checkDeleteArticle} />
+                    }
+                    else {
+                        return <LazyLoad key={article.slug} height={372} offset={300} threshold={0.1}>
                         <SingleArticle articleData={article} deleteArticle={checkDeleteArticle} />
                     </LazyLoad>
-                )) : <div className='noResultsContainer'>
+                    }
+                    
+                }) : <div className='noResultsContainer'>
                         No results for the given query
                     </div>}
             </div>
