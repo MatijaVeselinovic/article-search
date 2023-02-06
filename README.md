@@ -37,19 +37,19 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ## Technology stack
 list of major technologies and libraries used within the project:
-* [SCSS](https://sass-lang.com/)
-* [ReactJS](https://reactjs.org/): Version 17.0.2
-* [React Redux](https://react-redux.js.org/): Version 7.2.5
-* [Redux Toolkit](https://redux-toolkit.js.org/): Version 1.6.2
-* [Swiper](https://swiperjs.com): Version 7.0.8
-* [Webpack](https://webpack.js.org/): Version 5.58.1
+* [ReactJS](https://reactjs.org/)
+* [Typescript](https://www.typescriptlang.org/)
+* [CSS]
+* [React Query](https://www.npmjs.com/package/react-query)
+* [Fuse.js](https://fusejs.io/)
+* [React Lazy Load](https://www.npmjs.com/package/react-lazy-load)
+* [React Loading Skeleton](https://www.npmjs.com/package/react-loading-skeleton)
+* [A few react hooks]
 
 ## Notes and comments for the reviewer
-1. You can uncomment a few lines inside the `GameCategory.jsx` and `GameCategory.scss` to enable images and their lazy loading. It's defaultly commented out because of huge number of missing images.
-2. The sample project in itself did not require managing data via redux store, however I personally wanted to try out something new with using *redux-toolkit's* `createSlice` function to easily export reducers and define actions without having to worry about immutability, which is something *redux-toolkit* does under the hood.
-3. There are two different versions of loader component without any specific reason, I just wanted to show of the diversity and also I thought it visually looks better.
-4. I wasn't really creative with the design, but I've tried to recreate a smooth and simplified version of the website that was referenced in the task.
-5. This is getting a bit too long, have fun. :)
+1. I didn't have enough time to separate and abstract components more, but just letting you know I am aware that there should have been a few more components abstracted ideally.
+2. I didn't use the Next.js simply because I am way more comfortable with React.JS and once again because I was very short on time.
+3. I didn't use Emotion or Stitches, once again for simplicity because of the time, but I've taken a look at them and I've previously used some similar software.
 
 ##
 #### Author: [Matija Veselinovic](https://github.com/MatijaVeselinovic/)
