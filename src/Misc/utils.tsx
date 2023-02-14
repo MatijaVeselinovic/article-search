@@ -12,7 +12,7 @@ export function isolateUniqueCategoryPairsAndCount(data: Article[]) {
     }, {});
 }
 
-export const navigateWithParams = (navigate:NavigateFunction, params: URLSearchParamsInit) => {
+export const navigateWithParams = (navigate: NavigateFunction, params: URLSearchParamsInit) => {
     const options = {
         pathname: '/',
         search: `?${createSearchParams(params)}`,

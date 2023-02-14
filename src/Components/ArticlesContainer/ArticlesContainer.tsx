@@ -123,12 +123,6 @@ export function ArticlesContainer() {
         setDeletePopupSlug('')
     }
 
-    const refetchData = () => {
-        fetchArticles().then(data => {
-            setArticles(data);
-        })
-    }
-
     const checkDeleteCategoryArticles = (categoryId: number) => {
         setDeleteCategoryIdPopup(categoryId.toString())
     }
@@ -136,6 +130,12 @@ export function ArticlesContainer() {
     const deleteCategoryArticles = (categoryId: string) => {
         setArticles(articles.filter((article) => article.post_category_id.toString() !== categoryId.toString()));
         setDeleteCategoryIdPopup('')
+    }
+
+    const refetchData = () => {
+        fetchArticles().then(data => {
+            setArticles(data);
+        })
     }
 
     if (isLoading) return (

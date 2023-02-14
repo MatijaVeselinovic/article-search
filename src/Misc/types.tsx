@@ -8,20 +8,15 @@ export interface Article {
     title: string;
 }
 
-export const ArticleCategoryEnum  = {
-    1: 'X Universe',
-    2: 'Elite: Dangerous',
-    3: 'Starpoint Gemini',
-    4: 'EVE Online'
-}
-
 export interface Category {
     categoryId: number;
     categoryName: string;
     categoryCount: number;
 }
 
-// export interface QueryParams {
-//     query: string;
-//     filter: string;
-// }
+export const ArticleCategoryEnum  = {
+    1: 'X Universe',
+    2: 'Elite: Dangerous',
+    3: 'Starpoint Gemini',
+    4: 'EVE Online'
+}
